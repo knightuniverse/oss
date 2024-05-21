@@ -1,6 +1,6 @@
 "use server";
 
-import { ossApi } from "../oss-api";
+import { ossApi } from "@/lib/oss-api";
 
 async function findMany(
   params: Partial<{ page: number; pageSize: number }> = {}

@@ -314,9 +314,9 @@ class HttpBase {
    * @param middleware
    * @returns
    */
-  afterReturning(middleware: AfterReturningMiddleware): void {
+  afterReturning(middleware: AfterReturningMiddleware): this {
     if (!isFunction(middleware)) {
-      return;
+      return this;
     }
 
     if (!isPromise(middleware)) {
@@ -333,6 +333,8 @@ class HttpBase {
         middleware as AsyncAfterReturningMiddleware
       );
     }
+
+    return this;
   }
 
   /**
@@ -360,9 +362,9 @@ class HttpBase {
    * @param middleware
    * @returns
    */
-  beforeRequest(middleware: BeforeRequestMiddleware): void {
+  beforeRequest(middleware: BeforeRequestMiddleware): this {
     if (!isFunction(middleware)) {
-      return;
+      return this;
     }
 
     if (!isPromise(middleware)) {
@@ -384,6 +386,8 @@ class HttpBase {
         middleware as AsyncBeforeRequestMiddleware
       );
     }
+
+    return this;
   }
 
   disableCache() {

@@ -1,4 +1,4 @@
-import { findMany } from "@/lib/services/organizations-service";
+import { findMany } from "@/lib/server-actions/organizations";
 import { Table } from "antd";
 
 async function DataTable(

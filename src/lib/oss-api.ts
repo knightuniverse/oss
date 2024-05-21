@@ -7,9 +7,7 @@ import {
   type IHttpResponse,
 } from "@/lib/http";
 import { isNil } from "lodash-es";
-import { cache } from "./cache";
-import { CK_TOKEN, SK_SUB } from "./constants";
-import { Session } from "./session";
+import { fetchCredential } from "./server-actions/authentication";
 
 class HttpProxy implements IHttp {
   async call<T = unknown>(
@@ -18,27 +16,24 @@ class HttpProxy implements IHttp {
     parameters: Record<string, unknown> = {},
     extraConfig: ExtraConfig = {}
   ): Promise<IHttpResponse<T>> {
-    console.log("Hoc");
+    console.log("HttpProxy");
 
     const apiConfig = {} as HttpConfig;
     const config = {
       ...extraConfig,
     };
-    const session = await Session.create();
-    const sub = session[SK_SUB];
 
-    if (!isNil(sub)) {
-      const access_token = await cache.getItem(`/${sub}/${CK_TOKEN}`);
-      if (!isNil(access_token)) {
-        // const headers = config.headers || {};
-        // headers.authorization = `Bearer ${access_token}`;
-        // config.headers = headers;
-        apiConfig.token = access_token as string;
-      }
+    const credential = await fetchCredential();
+    if (!isNil(credential)) {
+      apiConfig.token = credential.accessToken;
     }
 
-    const http = api(process.env.NEXT_PUBLIC_API_BASEURL, apiConfig);
-    return await http.call<T>(method, url, parameters, config);
+    return await api(process.env.NEXT_PUBLIC_API_BASEURL, apiConfig).call<T>(
+      method,
+      url,
+      parameters,
+      config
+    );
   }
 
   async get<T = unknown>(

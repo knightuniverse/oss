@@ -1,6 +1,19 @@
+import { isAuthenticated } from "@/lib/server-actions/authentication";
+import { redirect } from "next/navigation";
 import { SignInForm } from "./_components/sign-in-form";
 
-function SignInPage() {
+async function guard() {
+  const authenticated = await isAuthenticated();
+  if (!authenticated) {
+    return;
+  }
+
+  redirect("/organizations");
+}
+
+async function SignInPage() {
+  await guard();
+
   return (
     <main className="flex flex-col justify-center items-center min-h-screen">
       <div className="container rounded-[0.5rem] border bg-background shadow lg:px-0">

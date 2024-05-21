@@ -1,7 +1,14 @@
-// import { isAuthenticated } from "@/lib/services/authentication-service";
-// import { redirect } from "next/navigation";
+import { isAuthenticated } from "@/lib/server-actions/authentication";
 import { Breadcrumb } from "antd";
+import { redirect } from "next/navigation";
 import { SideBar } from "./_components/sidebar";
+
+async function guard() {
+  const authenticated = await isAuthenticated();
+  if (!authenticated) {
+    redirect("/sign-in");
+  }
+}
 
 /**
  * Auth Guard
@@ -9,10 +16,7 @@ import { SideBar } from "./_components/sidebar";
  * @returns
  */
 async function Layout(props: { children: React.ReactNode }) {
-  // const authenticated = await isAuthenticated();
-  // if (!authenticated) {
-  //   redirect("/sign-in");
-  // }
+  await guard();
 
   return (
     <main className="flex flex-row justify-start items-start min-h-screen">
