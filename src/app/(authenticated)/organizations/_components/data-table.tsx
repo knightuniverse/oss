@@ -1,12 +1,11 @@
-import { findMany } from "@/lib/server-actions/organizations";
-import { Table } from "antd";
+"use client";
 
-async function DataTable(
-  props: Partial<{
-    searchParams: Record<string, any>;
-  }>
-) {
-  const data = await findMany(props.searchParams);
+import { Table } from "antd";
+import { useRouter } from "next/navigation";
+import queryString from "query-string";
+
+function AntdTable({ data, searchParams }: any) {
+  const router = useRouter();
 
   const columns = [
     {
@@ -19,13 +18,34 @@ async function DataTable(
       dataIndex: "name",
       key: "name",
     },
+    {
+      title: "简介",
+      dataIndex: "desc",
+      key: "desc",
+    },
   ];
 
+  function onPaginationChange(page: number, pageSize: number) {
+    router.push(
+      `/organizations?${queryString.stringify({
+        page,
+        pageSize,
+      })}`
+    );
+  }
+
   return (
-    <div>
-      <Table dataSource={data.result} columns={columns} />
-    </div>
+    <Table
+      columns={columns}
+      dataSource={data.result}
+      pagination={{
+        current: data.page,
+        pageSize: searchParams?.pageSize || 20,
+        total: data.count,
+        onChange: onPaginationChange,
+      }}
+    />
   );
 }
 
-export { DataTable };
+export { AntdTable };

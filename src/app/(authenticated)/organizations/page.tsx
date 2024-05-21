@@ -1,10 +1,11 @@
+import { findMany } from "@/lib/server-actions/organizations";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
 import md5 from "md5";
 import { Suspense } from "react";
 import { z } from "zod";
 
-import { DataTable } from "./_components/data-table";
+import { AntdTable } from "./_components/data-table";
 
 function getSearchParams(data: Record<string, any>) {
   const SearchParams = z.object({
@@ -21,7 +22,17 @@ function getSearchParams(data: Record<string, any>) {
 }
 
 function Spinner() {
-  return <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />;
+  return <div className="flex flex-col justify-center items-center h-full w-full"><Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} /></div>;
+}
+
+async function DataTable(
+  props: Partial<{
+    searchParams: Record<string, any>;
+  }>
+) {
+  const { searchParams } = props;
+  const data = await findMany(searchParams);
+  return <AntdTable data={data} searchParams={searchParams}></AntdTable>;
 }
 
 async function OrganizationsPage(props: { searchParams: Record<string, any> }) {
