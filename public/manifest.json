@@ -1,0 +1,24 @@
+{
+  "background_color": "#2196f3",
+  "display": "standalone",
+  "icons": [
+    {
+      "sizes": "46x46",
+      "src": "icons/logo-46x46.svg",
+      "type": "image/svg+xml"
+    },
+    {
+      "sizes": "150x150",
+      "src": "icons/logo-150x150.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "id": "bcb0ef4a-a4d2-421f-82b8-27221d48e8b7",
+  "name": "oss",
+  "orientation": "portrait",
+  "scope": "/",
+  "short_name": "partners",
+  "splash_pages": null,
+  "start_url": "/",
+  "theme_color": "#2196f3"
+}

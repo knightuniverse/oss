@@ -1,0 +1,30 @@
+name: oss-app
+
+services:
+  oss-app:
+    image: "mcr.microsoft.com/devcontainers/javascript-node:20-bullseye"
+    command: tail -f /dev/null
+    networks:
+      - qfy
+    ports:
+      - "8080:3000"
+    volumes:
+      - ../..:/workspaces:cached
+  oss-app-redis:
+    image: "redis:alpine"
+    networks:
+      - qfy
+    ports:
+      - "7379:6379"
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+
+volumes:
+  redis-data:
+
+networks:
+  # The presence of these objects is sufficient to define them
+  qfy:
+    external: true
+    name: qfy
