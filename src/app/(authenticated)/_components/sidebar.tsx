@@ -2,26 +2,32 @@
 
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
 const items: MenuItem[] = [
   {
-    key: "grp",
+    key: "/organizations",
     label: "机构管理",
+  },
+  {
+    key: "/lawyers",
+    label: "律师管理",
   },
 ];
 
 function SideBar() {
+  const pathname = usePathname();
   const router = useRouter();
 
   const onClick: MenuProps["onClick"] = (e) => {
-    console.log("click ", e);
+    router.push(e.key);
   };
 
   return (
     <Menu
+      selectedKeys={[pathname]}
       className="min-h-screen"
       onClick={onClick}
       style={{ width: 256 }}

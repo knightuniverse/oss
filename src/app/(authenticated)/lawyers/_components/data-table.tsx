@@ -19,9 +19,9 @@ function AntdTable({ data, searchParams }: any) {
       key: "name",
     },
     {
-      title: "简介",
-      dataIndex: "desc",
-      key: "desc",
+      title: "自我介绍",
+      dataIndex: "bio",
+      key: "bio",
     },
   ];
 
