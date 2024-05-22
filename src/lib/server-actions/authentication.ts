@@ -60,6 +60,12 @@ async function signIn(credential: {
   const { accessToken, id } = data.data;
   await saveCredential(accessToken, id);
 }
+async function signOut() {
+  // TODO 这里只能清理当前用户的所有数据
+  await cache.clear();
+  const session = await Session.create();
+  await session.destroy();
+}
 
 async function isAuthenticated() {
   const session = await Session.create();
@@ -68,8 +74,8 @@ async function isAuthenticated() {
     return false;
   }
 
-  const hasCredential = await cache.hasItem(`/${sub}/${CK_TOKEN}`);
-  if (!hasCredential) {
+  const credential = await cache.getItem(`/${sub}/${CK_TOKEN}`);
+  if (!credential) {
     return false;
   }
 
@@ -97,4 +103,4 @@ async function fetchCredential() {
   return credential;
 }
 
-export { fetchCredential, isAuthenticated, signIn };
+export { fetchCredential, isAuthenticated, signIn, signOut };

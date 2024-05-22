@@ -124,6 +124,7 @@ class RedisKVStorage implements IStorage {
   }
 
   async hasItem(key: string): Promise<boolean> {
+    // TODO exists好像会有点问题，就是要clear的时候要把key也清理了，这个exists才会返回false？
     const result = await this._redis.exists(this.buildRedisKey(key));
     return result === 1;
   }

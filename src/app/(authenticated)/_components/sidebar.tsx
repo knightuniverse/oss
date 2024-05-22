@@ -17,7 +17,7 @@ const items: MenuItem[] = [
   },
 ];
 
-function SideBar() {
+function SideBar(props: Partial<{ className: string }>) {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -28,14 +28,13 @@ function SideBar() {
   return (
     <Menu
       selectedKeys={[pathname]}
-      className="min-h-screen"
       onClick={onClick}
-      style={{ width: 256 }}
-      defaultSelectedKeys={["1"]}
-      defaultOpenKeys={["sub1"]}
+      defaultSelectedKeys={["/organizations"]}
+      defaultOpenKeys={["/organizations"]}
       items={items}
       mode="inline"
-      theme="dark"
+      style={{ height: '100%', borderRight: 0 }}
+      {...props}
     />
   );
 }

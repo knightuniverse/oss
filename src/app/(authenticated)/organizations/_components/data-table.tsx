@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Table } from "antd";
+import { Button, Card, Table } from "antd";
 import { useRouter } from "next/navigation";
 import queryString from "query-string";
 
@@ -40,7 +40,7 @@ function AntdTable({ data, searchParams }: any) {
         <Button type="primary">添加</Button>
       </div>
 
-      <div className="w-full">
+      <Card className="w-full">
         <Table
           columns={columns}
           dataSource={data.result}
@@ -51,7 +51,7 @@ function AntdTable({ data, searchParams }: any) {
             onChange: onPaginationChange,
           }}
         />
-      </div>
+      </Card>
     </div>
   );
 }
