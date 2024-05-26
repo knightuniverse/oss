@@ -6,17 +6,18 @@ import { api } from "@/lib/http";
 import { Session } from "@/lib/session";
 import { add, differenceInMinutes, fromUnixTime, getUnixTime } from "date-fns";
 import { isEmpty, isNil, isString } from "lodash-es";
+import { redirect } from 'next/navigation';
 
 interface ICredential {
   accessToken: string;
   expiresAt: number; // unix timestamp in seconds
 }
 
-function gonnaExpire(expiresAt: number) {
+function _gonnaExpire(expiresAt: number) {
   return differenceInMinutes(fromUnixTime(expiresAt), new Date()) <= 10;
 }
 
-async function saveCredential(accessToken: string, sub: number) {
+async function _saveCredential(accessToken: string, sub: number) {
   const session = await Session.create();
   session[SK_SUB] = `${sub}`;
   const credential: ICredential = {
@@ -34,7 +35,7 @@ async function saveCredential(accessToken: string, sub: number) {
   return credential;
 }
 
-async function refreshCredential(token: string) {
+async function _refreshCredential(token: string) {
   const { data } = await api(process.env.NEXT_PUBLIC_API_BASEURL, {
     token,
   }).post<{
@@ -43,7 +44,7 @@ async function refreshCredential(token: string) {
     desc: string;
   }>("/oss/auth/refresh");
   const { accessToken, id } = data.data;
-  const credential = await saveCredential(accessToken, id);
+  const credential = await _saveCredential(accessToken, id);
   return credential;
 }
 
@@ -58,13 +59,18 @@ async function signIn(credential: {
   }>("/oss/auth/sign-in", credential);
 
   const { accessToken, id } = data.data;
-  await saveCredential(accessToken, id);
+  await _saveCredential(accessToken, id);
 }
+
 async function signOut() {
-  // TODO 这里只能清理当前用户的所有数据
-  await cache.clear();
   const session = await Session.create();
+  const sub = session[SK_SUB];
+  if (isString(sub) && !isEmpty(sub)) {
+    await cache.clear(`/${sub}`);
+  }
   await session.destroy();
+
+  redirect('/sign-in')
 }
 
 async function isAuthenticated() {
@@ -94,9 +100,9 @@ async function fetchCredential() {
     return null;
   }
 
-  if (gonnaExpire(credential.expiresAt)) {
+  if (_gonnaExpire(credential.expiresAt)) {
     // oops, you needs to refresh your credential because of your credential is going to be expired
-    const next = await refreshCredential(credential.accessToken);
+    const next = await _refreshCredential(credential.accessToken);
     return next;
   }
 

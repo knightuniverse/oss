@@ -1,6 +1,6 @@
 "use client";
 
-import { ossRouteHandler } from "@/lib/oss-route-handlers";
+import { signOut } from "@/lib/server-actions/authentication";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Dropdown, Layout, type MenuProps } from "antd";
 import { useRouter } from "next/navigation";
@@ -16,10 +16,9 @@ function Main(props: { children: React.ReactNode }) {
     },
   ];
 
-  async function signOut() {
+  async function handleSignOut() {
     try {
-      await ossRouteHandler.post("sign-out");
-      router.push("/sign-in");
+      await signOut();
     } catch (error) {
       console.error(error);
     }
@@ -35,7 +34,7 @@ function Main(props: { children: React.ReactNode }) {
               items,
               onClick: ({ key }) => {
                 if (key === "sign-out") {
-                  signOut();
+                  handleSignOut();
                 }
               },
             }}

@@ -63,7 +63,7 @@ interface IStorage {
     opts?: Partial<IStorageItemMeta>
   ) => Promise<void>;
   removeItem: (key: string) => Promise<void>;
-  clear: () => Promise<void>;
+  clear: (prefix?: string) => Promise<void>;
 }
 
 interface IStorageItem {
@@ -79,10 +79,6 @@ type IStorageConfig = Partial<{
 }>;
 
 class RedisKVStorage implements IStorage {
-  /**
-   * @example
-   * ship.unisco.com/session/{token}
-   */
   private _namespace = "";
   private _redis: IORedis;
 
@@ -146,11 +142,11 @@ class RedisKVStorage implements IStorage {
     await this._redis.del(this.buildRedisKey(key));
   }
 
-  clear(): Promise<void> {
+  clear(prefix: string = ""): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       let keys = [] as string[];
       const stream = this._redis.scanStream({
-        match: `${this._namespace}*`,
+        match: `${this._namespace}${prefix}*`,
       });
       stream.on("data", (resultKeys) => {
         keys = Array.from(new Set<string>(resultKeys));
