@@ -2,6 +2,19 @@
 
 import { ossApi } from "@/lib/oss-api";
 
+async function findOne(id: number) {
+  const { data } = await ossApi.get<{
+    code: number;
+    data: {
+      desc: string;
+      id: number;
+      name: string;
+    };
+    desc: string;
+  }>(`/oss/organizations/${id}`, {});
+  return data.data;
+}
+
 async function findMany(
   params: Partial<{ page: number; pageSize: number }> = {}
 ) {
@@ -32,4 +45,4 @@ async function findMany(
   return data.data;
 }
 
-export { findMany };
+export { findMany, findOne };

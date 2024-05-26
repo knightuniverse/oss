@@ -1,17 +1,21 @@
 "use client";
 
-import { Button, Card, Table } from "antd";
+import { Button, Card, Table, type ColumnsType } from "antd";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import queryString from "query-string";
 
 function AntdTable({ data, searchParams }: any) {
   const router = useRouter();
 
-  const columns = [
+  const columns: ColumnsType<any> = [
     {
       title: "ID",
       dataIndex: "id",
       key: "id",
+      render: (text: string) => (
+        <Link href={`/organizations/${text}`}>{text}</Link>
+      ),
     },
     {
       title: "名字",
