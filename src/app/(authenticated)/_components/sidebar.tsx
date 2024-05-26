@@ -15,6 +15,10 @@ const items: MenuItem[] = [
     key: "/lawyers",
     label: "律师管理",
   },
+  {
+    key: "/documents",
+    label: "文档管理",
+  },
 ];
 
 function SideBar(props: Partial<{ className: string }>) {
@@ -33,7 +37,7 @@ function SideBar(props: Partial<{ className: string }>) {
       defaultOpenKeys={["/organizations"]}
       items={items}
       mode="inline"
-      style={{ height: '100%', borderRight: 0 }}
+      style={{ height: "100%", borderRight: 0 }}
       {...props}
     />
   );
