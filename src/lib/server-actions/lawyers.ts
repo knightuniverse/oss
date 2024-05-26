@@ -3,18 +3,22 @@
 import { ossApi } from "@/lib/oss-api";
 import { type PaginationData } from "./types";
 
+interface ILawyerDto {
+  bio: string;
+  id: number;
+  name: string;
+  seniority: number;
+}
+
 async function create(dto: {
   bio: string;
   name: string;
   organizationId: number;
+  seniority: number;
 }) {
   const { data } = await ossApi.post<{
     code: number;
-    data: {
-      bio: string;
-      id: number;
-      name: string;
-    };
+    data: ILawyerDto;
     desc: string;
   }>(`/oss/lawyers/`, dto);
   console.log("create", data.data);
@@ -24,11 +28,7 @@ async function create(dto: {
 async function findOne(id: number) {
   const { data } = await ossApi.get<{
     code: number;
-    data: {
-      bio: string;
-      id: number;
-      name: string;
-    };
+    data: ILawyerDto;
     desc: string;
   }>(`/oss/lawyers/${id}`, {});
   return data.data;
@@ -40,13 +40,12 @@ async function findMany(
   const { page = 1, pageSize = 20 } = params;
   const { data } = await ossApi.get<{
     code: number;
-    data: PaginationData<{
-      bio: string;
-      createdAt: string;
-      id: number;
-      name: string;
-      updatedAt: string;
-    }>;
+    data: PaginationData<
+      ILawyerDto & {
+        createdAt: string;
+        updatedAt: string;
+      }
+    >;
     desc: string;
   }>("/oss/lawyers", {
     page,
@@ -55,13 +54,7 @@ async function findMany(
   return data.data;
 }
 
-async function update(
-  id: number,
-  values: Partial<{
-    bio: string;
-    name: string;
-  }>
-) {
+async function update(id: number, values: Partial<ILawyerDto>) {
   const { data } = await ossApi.patch<{
     code: number;
     data: any;

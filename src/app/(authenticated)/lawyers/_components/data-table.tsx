@@ -13,9 +13,7 @@ function AntdTable({ data, searchParams }: any) {
       title: "ID",
       dataIndex: "id",
       key: "id",
-      render: (text: string) => (
-        <Link href={`/lawyers/${text}`}>{text}</Link>
-      ),
+      render: (text: string) => <Link href={`/lawyers/${text}`}>{text}</Link>,
     },
     {
       title: "名字",
@@ -23,7 +21,7 @@ function AntdTable({ data, searchParams }: any) {
       key: "name",
     },
     {
-      title: "自我介绍",
+      title: "简介",
       dataIndex: "bio",
       key: "bio",
     },
@@ -31,17 +29,23 @@ function AntdTable({ data, searchParams }: any) {
 
   function onPaginationChange(page: number, pageSize: number) {
     router.push(
-      `/organizations?${queryString.stringify({
+      `/lawyers?${queryString.stringify({
         page,
         pageSize,
       })}`
     );
   }
 
+  function onCreate() {
+    router.push("/lawyers/new");
+  }
+
   return (
     <div className="flex flex-col gap-4 justify-start items-start w-full">
       <div className="w-full">
-        <Button type="primary">添加</Button>
+        <Button type="primary" onClick={onCreate}>
+          添加
+        </Button>
       </div>
 
       <Card className="w-full">

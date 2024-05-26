@@ -36,17 +36,17 @@ export function EditForm(props: {
       initialValues={initialValues}
       onFinish={onSubmit}
     >
-      <Form.Item label="Name" name="name" rules={[{ required: true }]}>
+      <Form.Item label="名字" name="name" rules={[{ required: true }]}>
         <Input placeholder="Name" />
       </Form.Item>
 
-      <Form.Item label="Description" name="desc" rules={[{ required: true }]}>
+      <Form.Item label="简介" name="desc" rules={[{ required: true }]}>
         <Input placeholder="Description" />
       </Form.Item>
 
       <Form.Item>
         <Button disabled={submitting} htmlType="submit" type="primary">
-          Submit
+          提交
         </Button>
       </Form.Item>
     </Form>

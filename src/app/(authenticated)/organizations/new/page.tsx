@@ -3,7 +3,7 @@ import { Card } from "antd";
 import { Suspense } from "react";
 import { EditForm } from "./_components/edit-form";
 
-function CreationPage({ params }: { params: { id: string } }) {
+function CreationPage() {
   return (
     <Suspense fallback={<QFYSpinner></QFYSpinner>}>
       <Card className="w-full">

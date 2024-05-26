@@ -3,12 +3,9 @@
 import { signOut } from "@/lib/server-actions/authentication";
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Dropdown, Layout, type MenuProps } from "antd";
-import { useRouter } from "next/navigation";
 import { SideBar } from "./sidebar";
 
 function Main(props: { children: React.ReactNode }) {
-  const router = useRouter();
-
   const items: MenuProps["items"] = [
     {
       key: "sign-out",
