@@ -8,14 +8,14 @@ import { AntdTable } from "./_components/data-table";
 function getSearchParams(data: Record<string, any>) {
   const SearchParams = z.object({
     page: z.optional(z.coerce.number()).default(1),
-    pageSize: z.optional(z.coerce.number()).default(10),
+    pageSize: z.optional(z.coerce.number()).default(20),
   });
   const result = SearchParams.safeParse(data);
   return result.success
     ? result.data
     : {
         page: 1,
-        pageSize: 10,
+        pageSize: 20,
       };
 }
 
