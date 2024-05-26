@@ -1,6 +1,7 @@
 "use client";
 
 import { Button, Card, Table } from "antd";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import queryString from "query-string";
 
@@ -12,6 +13,9 @@ function AntdTable({ data, searchParams }: any) {
       title: "ID",
       dataIndex: "id",
       key: "id",
+      render: (text: string) => (
+        <Link href={`/lawyers/${text}`}>{text}</Link>
+      ),
     },
     {
       title: "名字",
