@@ -1,10 +1,8 @@
+import { QFYSpinner } from "@/components/ui/qfy-spinner";
 import { findMany } from "@/lib/server-actions/lawyers";
-import { LoadingOutlined } from "@ant-design/icons";
-import { Spin } from "antd";
 import md5 from "md5";
 import { Suspense } from "react";
 import { z } from "zod";
-
 import { AntdTable } from "./_components/data-table";
 
 function getSearchParams(data: Record<string, any>) {
@@ -19,10 +17,6 @@ function getSearchParams(data: Record<string, any>) {
         page: 1,
         pageSize: 10,
       };
-}
-
-function Spinner() {
-  return <div className="flex flex-col justify-center items-center h-full w-full"><Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} /></div>;
 }
 
 async function DataTable(
@@ -42,7 +36,7 @@ async function OrganizationsPage(props: { searchParams: Record<string, any> }) {
     <>
       <Suspense
         key={md5(JSON.stringify(searchParams))}
-        fallback={<Spinner></Spinner>}
+        fallback={<QFYSpinner></QFYSpinner>}
       >
         <DataTable searchParams={searchParams} />
       </Suspense>

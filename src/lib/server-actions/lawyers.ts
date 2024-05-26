@@ -1,6 +1,7 @@
 "use server";
 
 import { ossApi } from "@/lib/oss-api";
+import { type PaginationData } from "./types";
 
 async function findOne(id: number) {
   const { data } = await ossApi.get<{
@@ -21,22 +22,13 @@ async function findMany(
   const { page = 1, pageSize = 20 } = params;
   const { data } = await ossApi.get<{
     code: number;
-    data: {
-      count: number;
-      exceedCount: boolean;
-      exceedTotalPages: boolean;
-      hasNextPage: boolean;
-      hasPrevPage: boolean;
-      limit: number;
-      page: number;
-      result: Array<{
-        createdAt: string;
-        id: number;
-        name: string;
-        updatedAt: string;
-      }>;
-      totalPages: number;
-    };
+    data: PaginationData<{
+      bio: string;
+      createdAt: string;
+      id: number;
+      name: string;
+      updatedAt: string;
+    }>;
     desc: string;
   }>("/oss/lawyers", {
     page,
@@ -45,5 +37,27 @@ async function findMany(
   return data.data;
 }
 
-export { findMany, findOne };
+async function update(
+  id: number,
+  values: Partial<{
+    bio: string;
+    name: string;
+  }>
+) {
+  const { data } = await ossApi.patch<{
+    code: number;
+    data: any;
+    desc: string;
+  }>(
+    `/oss/lawyers/${id}`,
+    Object.entries(values)
+      .filter(([key, value]) => value !== null && value !== undefined)
+      .reduce((obj, [key, value]) => {
+        obj[key] = value;
+        return obj;
+      }, {} as Record<string, any>)
+  );
+  return data.data;
+}
 
+export { findMany, findOne, update };
