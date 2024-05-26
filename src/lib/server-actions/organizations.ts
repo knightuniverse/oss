@@ -3,6 +3,20 @@
 import { ossApi } from "@/lib/oss-api";
 import { type PaginationData } from "./types";
 
+async function create(dto: { desc: string; name: string }) {
+  const { data } = await ossApi.post<{
+    code: number;
+    data: {
+      bio: string;
+      id: number;
+      name: string;
+    };
+    desc: string;
+  }>(`/oss/organizations/`, dto);
+  console.log("create", data.data);
+  return data.data;
+}
+
 async function findOne(id: number) {
   const { data } = await ossApi.get<{
     code: number;
@@ -60,4 +74,4 @@ async function update(
   return data.data;
 }
 
-export { findMany, findOne, update };
+export { create, findMany, findOne, update };

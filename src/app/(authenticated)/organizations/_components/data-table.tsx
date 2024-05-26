@@ -38,10 +38,16 @@ function AntdTable({ data, searchParams }: any) {
     );
   }
 
+  function onCreate() {
+    router.push("/organizations/new");
+  }
+
   return (
     <div className="flex flex-col gap-4 justify-start items-start w-full">
       <div className="w-full">
-        <Button type="primary">添加</Button>
+        <Button type="primary" onClick={onCreate}>
+          添加
+        </Button>
       </div>
 
       <Card className="w-full">
