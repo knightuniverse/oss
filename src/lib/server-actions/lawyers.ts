@@ -1,10 +1,12 @@
 "use server";
 
 import { ossApi } from "@/lib/oss-api";
+import { type IOrganizationDto } from "./organizations";
 import { type PaginationData } from "./types";
 
 interface ILawyerDto {
   bio: string;
+  featured: 0 | 1;
   id: number;
   name: string;
   seniority: number;
@@ -21,7 +23,6 @@ async function create(dto: {
     data: ILawyerDto;
     desc: string;
   }>(`/oss/lawyers/`, dto);
-  console.log("create", data.data);
   return data.data;
 }
 
@@ -43,6 +44,7 @@ async function findMany(
     data: PaginationData<
       ILawyerDto & {
         createdAt: string;
+        organization: IOrganizationDto;
         updatedAt: string;
       }
     >;
@@ -71,4 +73,16 @@ async function update(id: number, values: Partial<ILawyerDto>) {
   return data.data;
 }
 
-export { create, findMany, findOne, update };
+async function setFeatured(id: number) {
+  await update(id, {
+    featured: 1,
+  });
+}
+
+async function unsetFeatured(id: number) {
+  await update(id, {
+    featured: 0,
+  });
+}
+
+export { create, findMany, findOne, setFeatured, unsetFeatured, update };
