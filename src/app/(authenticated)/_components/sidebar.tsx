@@ -19,6 +19,7 @@ const items: MenuItem[] = [
     key: "/documents",
     label: "文档管理",
   },
+  //document-downloads
 ];
 
 function SideBar(props: Partial<{ className: string }>) {

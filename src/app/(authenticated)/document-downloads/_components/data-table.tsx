@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Card, Space, Table, type ColumnsType } from "antd";
+import { Card, Table, type ColumnsType } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import queryString from "query-string";
@@ -18,53 +18,37 @@ function AntdTable({ data, searchParams }: any) {
       ),
     },
     {
-      title: "标题",
-      dataIndex: "title",
-      key: "title",
+      title: "文档",
+      dataIndex: ["doc", "title"],
+      render: (title: string, r: any) => (
+        <Link href={`/documents/${r.doc.id}`}>{title}</Link>
+      ),
     },
     {
-      title: "href",
-      dataIndex: "href",
-      key: "href",
-    },
-    {
-      title: "下载记录",
-      key: "actions",
-      render: (_, record, index) => {
-        return (
-          <Space>
-            <Link
-              href={`/document-downloads?documentId=${record.id}`}
-            >
-              下载记录
-            </Link>
-          </Space>
-        );
-      },
+      title: "手机",
+      dataIndex: ["phone", "purePhoneNumber"],
     },
   ];
 
   function onPaginationChange(page: number, pageSize: number) {
     router.push(
-      `/organizations?${queryString.stringify({
-        page,
-        pageSize,
-      })}`
+      `/document-downloads?${queryString.stringify(
+        searchParams.documentId
+          ? {
+              documentId: searchParams.documentId,
+              page,
+              pageSize,
+            }
+          : {
+              page,
+              pageSize,
+            }
+      )}`
     );
-  }
-
-  function onCreate() {
-    router.push("/organizations/new");
   }
 
   return (
     <div className="flex flex-col gap-4 justify-start items-start w-full">
-      <div className="w-full">
-        <Button type="primary" onClick={onCreate}>
-          添加
-        </Button>
-      </div>
-
       <Card className="w-full">
         <Table
           columns={columns}
