@@ -8,8 +8,27 @@ services:
       - qfy
     ports:
       - "8080:3000"
+    extra_hosts:
+      - "minio.docker.internal:host-gateway"
     volumes:
       - ../..:/workspaces:cached
+    depends_on:
+      - minio
+      - oss-app-redis
+
+  minio:
+    image: quay.io/minio/minio
+    ports:
+      - "9000:9000" # api 端口
+      - "9001:9001" # 控制台端口
+    environment:
+      - MINIO_ROOT_USER=johndoe
+      - MINIO_ROOT_PASSWORD=2Dp1pFT9ehMaoefpPLq9VuXqJg7Fc8g8
+    volumes:
+      - minio-data:/data
+    command: server /data --console-address ":9001"
+    restart: unless-stopped
+
   oss-app-redis:
     image: "redis:alpine"
     networks:
@@ -22,6 +41,7 @@ services:
 
 volumes:
   redis-data:
+  minio-data:
 
 networks:
   # The presence of these objects is sufficient to define them

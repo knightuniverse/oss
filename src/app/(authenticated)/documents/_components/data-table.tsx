@@ -14,7 +14,7 @@ function AntdTable({ data, searchParams }: any) {
       dataIndex: "id",
       key: "id",
       render: (text: string) => (
-        <Link href={`/organizations/${text}`}>{text}</Link>
+        <Link href={`/documents/${text}`}>{text}</Link>
       ),
     },
     {
@@ -46,7 +46,7 @@ function AntdTable({ data, searchParams }: any) {
 
   function onPaginationChange(page: number, pageSize: number) {
     router.push(
-      `/organizations?${queryString.stringify({
+      `/documents?${queryString.stringify({
         page,
         pageSize,
       })}`
@@ -54,7 +54,7 @@ function AntdTable({ data, searchParams }: any) {
   }
 
   function onCreate() {
-    router.push("/organizations/new");
+    router.push("/documents/new");
   }
 
   return (

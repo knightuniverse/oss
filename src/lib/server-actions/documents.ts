@@ -10,8 +10,12 @@ interface IDocumentDto {
   title: string;
 }
 
-// TODO
-async function create(dto: { desc: string; name: string }) {
+async function create(dto: {
+  organizationId: string;
+  href: string;
+  thumbnail: string;
+  title: string;
+}) {
   const { data } = await ossApi.post<{
     code: number;
     data: IDocumentDto;
