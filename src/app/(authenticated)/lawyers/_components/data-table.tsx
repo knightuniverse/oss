@@ -62,14 +62,12 @@ function AntdTable({ data, searchParams }: any) {
       dataIndex: "featured",
       key: "featured",
       render: (featured: number) =>
-        featured === 1 ? (
-          <CheckOutlined style={{ color: "green" }} />
-        ) : null,
+        featured === 1 ? <CheckOutlined style={{ color: "green" }} /> : null,
     },
     {
       title: "操作",
       key: "actions",
-      render: (_, record) => (
+      render: (_: any, record: any) => (
         <Space split={<Divider type="vertical" />}>
           {record.featured === 1 ? (
             <ActionButton

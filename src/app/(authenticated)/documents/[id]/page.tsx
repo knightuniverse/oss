@@ -23,7 +23,14 @@ async function OrganizationCard(props: { id: number }) {
   ].map((i) => ({
     key: i.dataIndex,
     label: i.label,
-    children: <p>{org[i.dataIndex]}</p>,
+    children: (
+      <p>
+        {
+          // @ts-ignore
+          org[i.dataIndex]
+        }
+      </p>
+    ),
   }));
 
   return (

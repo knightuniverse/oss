@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, Table, type ColumnsType } from "antd";
+import { Card, Table } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import queryString from "query-string";
@@ -8,7 +8,7 @@ import queryString from "query-string";
 function AntdTable({ data, searchParams }: any) {
   const router = useRouter();
 
-  const columns: ColumnsType<any> = [
+  const columns: any = [
     {
       title: "ID",
       dataIndex: "id",

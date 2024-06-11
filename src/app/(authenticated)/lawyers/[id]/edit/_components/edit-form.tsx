@@ -9,7 +9,7 @@ export function EditForm(props: {
   initialValues: {
     bio: string;
     name: string;
-    seniority: 1;
+    seniority: number;
   };
 }) {
   const { initialValues = {} } = props;

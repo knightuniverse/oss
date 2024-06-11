@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Card, Space, Table, type ColumnsType } from "antd";
+import { Button, Card, Space, Table } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import queryString from "query-string";
@@ -8,14 +8,12 @@ import queryString from "query-string";
 function AntdTable({ data, searchParams }: any) {
   const router = useRouter();
 
-  const columns: ColumnsType<any> = [
+  const columns: any = [
     {
       title: "ID",
       dataIndex: "id",
       key: "id",
-      render: (text: string) => (
-        <Link href={`/documents/${text}`}>{text}</Link>
-      ),
+      render: (text: string) => <Link href={`/documents/${text}`}>{text}</Link>,
     },
     {
       title: "标题",
@@ -30,12 +28,10 @@ function AntdTable({ data, searchParams }: any) {
     {
       title: "下载记录",
       key: "actions",
-      render: (_, record, index) => {
+      render: (_: any, record: any) => {
         return (
           <Space>
-            <Link
-              href={`/document-downloads?documentId=${record.id}`}
-            >
+            <Link href={`/document-downloads?documentId=${record.id}`}>
               下载记录
             </Link>
           </Space>

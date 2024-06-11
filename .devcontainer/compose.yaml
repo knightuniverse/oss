@@ -5,9 +5,9 @@ services:
     image: "mcr.microsoft.com/devcontainers/javascript-node:20-bullseye"
     command: tail -f /dev/null
     networks:
-      - qfy
+      - qfy-dev
     ports:
-      - "8080:3000"
+      - 8080:3000
     extra_hosts:
       - "minio.docker.internal:host-gateway"
     volumes:
@@ -19,32 +19,33 @@ services:
   minio:
     image: quay.io/minio/minio
     ports:
-      - "9000:9000" # api 端口
-      - "9001:9001" # 控制台端口
+      - 9000:9000 # api 端口
+      - 9001:9001 # 控制台端口
     environment:
       - MINIO_ROOT_USER=johndoe
       - MINIO_ROOT_PASSWORD=2Dp1pFT9ehMaoefpPLq9VuXqJg7Fc8g8
+    networks:
+      - qfy-dev
     volumes:
-      - minio-data:/data
+      - qfy-oss-minio-data-dev:/data
     command: server /data --console-address ":9001"
     restart: unless-stopped
 
   oss-app-redis:
     image: "redis:alpine"
     networks:
-      - qfy
+      - qfy-dev
     ports:
-      - "7379:6379"
+      - 7379:6379
     restart: unless-stopped
     volumes:
-      - redis-data:/data
+      - qfy-oss-redis-data-dev:/data
 
 volumes:
-  redis-data:
-  minio-data:
+  qfy-oss-redis-data-dev:
+  qfy-oss-minio-data-dev:
 
 networks:
   # The presence of these objects is sufficient to define them
-  qfy:
-    external: true
-    name: qfy
+  qfy-dev:
+    name: qfy-dev
