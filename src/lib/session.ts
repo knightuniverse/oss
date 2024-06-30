@@ -12,7 +12,7 @@ class Session {
       password: COOKIE_PASSWORD,
       cookieName: COOKIE_NAME,
       cookieOptions: {
-        httpOnly: true,
+        httpOnly: false,
         secure: false,
       },
       ttl: 28800, // 8h in seconds
