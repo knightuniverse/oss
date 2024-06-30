@@ -13,6 +13,7 @@ class Session {
       cookieName: COOKIE_NAME,
       cookieOptions: {
         httpOnly: true,
+        secure: false,
       },
       ttl: 28800, // 8h in seconds
     });
